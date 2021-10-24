@@ -1,0 +1,218 @@
+*********************************** www.mockaroo.com ***********************
+generate sql codes file 
+
+********************************** Visual Studio Code ***********************
+
+Open the sql code generated in the previews section
+
+
+
+
+************************help**************************
+
+\?
+
+*********************clear table *******************
+
+\! cls
+
+**************************create database**********************
+
+CREATE DATABASE database_name ;
+
+*************************delete database***********************
+
+DROP DATABASE database_name ;
+
+**********************view all databases **********************
+
+\l
+
+************************connect to database***********************
+
+ plsql --help
+
+***************************connect to database test********************
+
+Server [localhost]:
+Database [postgres]: test
+Port [5432]:
+Username [postgres]: postgres
+Password for user postgres:
+
+**************************conect to database from another database*************
+
+\c test (database name)
+
+*******************************create table with postgres*******************
+
+CREATE TABLE person(
+	id int ,
+	first_name VARCHAR(50),
+	last_name VARCHAR(50),
+	gendre VARCHAR(6),
+	date_of_birth DATE );  
+
+TIMESTAMP // DATE
+
+======data types : https://www.postgresql.org/docs/9.5/datatype.html
+
+************************list of all the tables that we have in our database ***
+
+\d
+
+*************************describe the actual table name *********************
+
+\d person 
+
+**********************CREATE TABLE WITH CONSTRAINTS *************************
+
+CREATE TABLE person(
+	id BIGSERIAL NOT NULL PRIMARY KEY,  
+	first_name VARCHAR(50) NOT NULL,
+	last_name VARCHAR(50) NOT NULL,
+	gendre VARCHAR(6) NOT NULL,
+	date_of_birth DATE NOT NULL,
+	email VARCHAR(150) );
+  
+
+=======>BIGSERIAL  :  increment by themself!!
+
+*********************** supprimer une table d'une base de donnÃ©es *************
+
+DROP TABLE person ; 
+
+********************** inset records into table ************************
+
+INSERT INTO person ( 
+	first_name,
+	last_name,
+	gender,
+	date_of_birth,
+	 email ) 
+VALUES ('Jake', 'Jones' , 'Male' , DATE '1990-01-10','jake@gmail.com') ; 
+
+*** shows just the table ***
+
+\dt
+
+***********************affiche le contenu de la table *********************
+
+SELECT * FROM person ;
+
+***********************insert 1000 table ****************************
+
+use : ===> www.mockaroo.com 
+===> data generator in various format 
+
+*********************lunch a sql file from psql shell ******************
+
+ \i 'C:/Users/Salim Hadhri/Desktop/Modules Talan Academy/Java Utils et BD/Les Bases De Donnees/TUTO postgres/person.sql' 
+
+****************************** show new table *************************
+
+SELECT * FROM table-name ; (bigserial attribute for auto generated id ) 
+
+*************************** SELECT FROM *******************************
+
+SELECT first_name FROM person ;
+
+SELECT first_name, last_name FROM person ;
+
+**************************** ORDER BY ********************************
+
+takes a column and order the result that we get back by the sending order or the sending 
+
+#1 2 3 4 5 ASC 
+#5 4 3 2 1 DESC 
+
+
+#SELECT * FROM person ORDER BY country_of_birth ;
+#SELECT * FROM person ORDER BY country_of_birth DESC;
+
+===> ascending et descending depends on dates, numbers et strings 
+EMPTY STRING goes on back list
+
+****************************** DISTINCT ****************************
+
+
+SELECT country_of_birth FROM person ORDER BY country_of_birth ;
+
+UNIQUE ===> values 
+
+SELECT DISTINCT country_of_birth FROM person ORDER BY country_of_birth ;
+
+********************* WHERE clause and AND *********************
+
+=====> filter the data based on conditions , criterias
+
+SELECT * FROM person WHERE gender = 'Female' ; 
+
+SELECT * FROM person WHERE gender = 'Male' AND country_of_birth='Poland';
+
+ *********************** COMPARITION OPERATORS **********************
+
+===> arithmetic operations, comparisions, big wise and logical operations 
+
+SELECT 1 + 1 ; ===> t (true)
+===> on any data types 
+<> ===> not equal operator
+
+********************** LIMIT, OFFSET & FESTCH *********************
+
+SELECT * FROM  person LIMIT 10 ; ====> first 10 persons by id 
+
+SELECT * FROM person OFFSET 5 LIMIT 10 ; ====> select 10 people after the 5th row (offset = décalage)
+SELECT * FROM person OFFSET 5 ; starts from 6
+
+LIMIT ===> not an sql standard
+FETCH ===> for any sql language 
+
+SELECT * FROM person OFFSET 5 FETCH FIRST 10 ROW ONLY ; (fetch = aller chercher)
+
+********************************** IN ******************************
+
+SELECT * FROM person WHERE country_of_birth='China' OR country_of_birth='France' OR country_of_birth='Brazil' ;
+=====> IN key word to simplify the code
+Select * FROM person WHERE country_of_birth IN ('China' , 'Brazil' , 'France' ) ;
+Select * FROM person WHERE country_of_birth IN ('China' , 'Brazil' , 'France' ) ORDER BY country_of_birth ;
+
+***************************** BETWEEN *****************************
+
+SELECT * FROM person WHERE date_of_birth BETWEEN DATE '2000-01-01' AND '2015-01-01' ;
+
+********************** LIKE ***************************
+
+SELECT * FROM person WHERE email LIKE '%.com'; =====> % : any character followed by .com 
+
+SELECT * FROM person WHERE email LIKE '%@google.%';
+
+SELECT * FROM person WHERE email LIKE '________@%'; '_' ==> means one character
+
+********************** ILIKE ***************************
+
+SELECT * FROM person WHERE country_of_birth LIKE 'p%'; ===> none
+SELECT * FROM person WHERE country_of_birth ILIKE 'p%'; ===> lower case or uppercase same result
+
+******************** GROUP BY **********************
+
+===> group our datas based on column 
+*** how many people we have for each of the countries that we have 
+
+SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth ;
+
+SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth ORDER BY country_of_birth;
+
+**************** GROUP BY HAVING *****************************
+
+===> extra filtering after you perform the agregation (count)
+
+** all the countries that have at least five people 
+
+SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth HAVING COUNT(*) > 5 ORDER BY country_of_birth;
+
+all functions that we have ==>https://www.postgresql.org/docs/9.5/functions-aggregate.html
+
+
+***triger***************
+https://www.postgresql.org/docs/12/sql-createtrigger.htmlo
